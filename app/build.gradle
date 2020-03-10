@@ -36,7 +36,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //关联lib
-    implementation project(':net')
+    implementation project(':ynet')
 //    implementation project(':utils')
 //    implementation project(':yurl')
 //    implementation project(':ycrash')
