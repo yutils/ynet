@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-//import com.yujing.utils.YToast
+import com.yujing.utils.YToast
 
 /**
  * fragment基类
@@ -44,7 +44,7 @@ abstract class BaseFragment : Fragment() {
      */
     protected open fun show(str: String?) {
         if (str == null) return
-//        YToast.showLong(activity, str)
+        YToast.showLong(activity, str)
     }
 
 }

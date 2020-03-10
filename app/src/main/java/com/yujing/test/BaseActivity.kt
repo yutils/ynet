@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-//import com.yujing.utils.YPermissions
-//import com.yujing.utils.YShow
-//import com.yujing.utils.YToast
-//import com.yujing.utils.YUtils
+import com.yujing.utils.YPermissions
+import com.yujing.utils.YShow
+import com.yujing.utils.YToast
+import com.yujing.utils.YUtils
 import java.util.concurrent.ScheduledThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 
@@ -18,10 +18,10 @@ import java.util.concurrent.TimeUnit
 abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        YUtils.setFullScreen(this, true)
-//        YUtils.setImmersive(this, true)
+        YUtils.setFullScreen(this, true)
+        YUtils.setImmersive(this, true)
         setContentView(layoutId)
-//        YPermissions.requestAll(this)
+        YPermissions.requestAll(this)
         init()
     }
 
@@ -45,7 +45,7 @@ abstract class BaseActivity : AppCompatActivity() {
         val runnable = Runnable {
             if (isFinishing) sTpe.shutdown()//关闭线程池
             if (isFinishing) sTpe.queue.remove()//移除当前线程且不继续执行此行之后代码
-//            YShow.finish()
+            YShow.finish()
             sTpe.shutdown()//关闭线程池
         }
         sTpe.schedule(runnable, time, TimeUnit.MILLISECONDS);//延迟启动任务
@@ -56,11 +56,11 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     @SuppressLint("ShowToast")
     fun show(text: String) {
-//        YToast.show(this, text)
+        YToast.show(this, text)
     }
 
     override fun finish() {
         super.finish()
-//        YShow.finish()
+        YShow.finish()
     }
 }
