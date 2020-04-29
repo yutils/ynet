@@ -2,6 +2,7 @@ package com.yujing.net;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -130,7 +131,7 @@ public class YnetAndroid extends Ynet {
                 showLog = globalShowLog;
             }
             if (showLog)
-                YLog.d("YNet","请求地址↓：" + (urlType == UrlType.GET ? "\nGet--->" : "\nPost--->") + url + (params == null ? "" : ("\n请求参数：" + params.toString())) + "\n请求结果：" + value);
+                println("YNet","请求地址↓：" + (urlType == UrlType.GET ? "\nGet--->" : "\nPost--->") + url + (params == null ? "" : ("\n请求参数：" + params.toString())) + "\n请求结果：" + value);
             if (success) {
                 if (ynetSuccessListener != null)
                     ynetSuccessListener.success(value);
@@ -145,6 +146,32 @@ public class YnetAndroid extends Ynet {
                 }
             }
         });
+    }
+
+    /**
+     * 打印日志
+     *
+     * @param TAG tag
+     * @param msg 内容
+     */
+    private static void println(String TAG, String msg) {
+        int LOG_MAX_LENGTH = 2000;
+        int strLength = msg.length();
+        int start = 0;
+        int end = LOG_MAX_LENGTH;
+        for (int i = 0; i < 100; i++) {
+            //剩下的文本还是大于规定长度则继续重复截取并输出
+            if (strLength > end) {
+                String tag = TAG + i;
+                Log.d(tag, msg.substring(start, end));
+                start = end;
+                end = end + LOG_MAX_LENGTH;
+            } else {
+                String tag = i == 0 ? TAG : TAG + i;
+                Log.d(tag, msg.substring(start, strLength));
+                break;
+            }
+        }
     }
 
     @Override
