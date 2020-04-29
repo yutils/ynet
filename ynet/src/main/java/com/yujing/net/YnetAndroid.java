@@ -131,7 +131,6 @@ public class YnetAndroid extends Ynet {
             }
             if (showLog)
                 YLog.d("YNet","请求地址↓：" + (urlType == UrlType.GET ? "\nGet--->" : "\nPost--->") + url + (params == null ? "" : ("\n请求参数：" + params.toString())) + "\n请求结果：" + value);
-                YLog.json(value);
             if (success) {
                 if (ynetSuccessListener != null)
                     ynetSuccessListener.success(value);
