@@ -53,13 +53,6 @@ dependencies {
 
 ```
 
-<font color=#0099ff size=4 >GET</font>
-```java
-  String url = "http://127.0.0.1:8080/yu";
-  Ynet.get(url, new ynetListener);
-
-```
-
 <font color=#0099ff size=4 >上传文件</font>
 ```java
 Ynet ynet = new Ynet();
