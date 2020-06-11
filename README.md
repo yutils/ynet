@@ -35,8 +35,9 @@ dependencies {
 ```
 
 ##  用法：
-  1.YUrl返回结果在子线程，适合java工程
-  2.YUrlAndroid返回结果在主线程，适合安卓工程
+  1.Ynet返回结果在子线程，适合java工程
+  
+  2.安卓请把Ynet替换成YnetAndroid，以为Ynet返回结果在子线程，YnetAndroid返回在主线程
 
 <font color=#0099ff size=4 >GET</font>
 ```java
