@@ -113,7 +113,7 @@ String url = "http://dldir1.qq.com/qqfile/qq/QQ8.9.2/20760/QQ8.9.2.exe";
 > * 必须权限  android.permission.INTERNET
 
 
-Github地址：[https://github.com/yutils/yurl](https://github.com/yutils/ynet)
+Github地址：[https://github.com/yutils/ynet](https://github.com/yutils/ynet)
 
 我的CSDN：[https://blog.csdn.net/Yu1441](https://blog.csdn.net/Yu1441)
 
