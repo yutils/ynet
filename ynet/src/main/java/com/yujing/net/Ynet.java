@@ -23,6 +23,7 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -70,7 +71,7 @@ public class Ynet extends Thread {
     /**
      * 本次访问SessionId
      */
-    protected String sessionId;
+    protected String mySessionId;
     /**
      * URL地址
      */
@@ -488,6 +489,25 @@ public class Ynet extends Thread {
         return context.getSocketFactory();
     }
 
+    private Map<String, String> mapSetRequestProperty;
+    private Map<String, String> mapAddRequestProperty;
+
+    public Ynet setRequestProperty(String key, String value) {
+        if (mapSetRequestProperty == null)
+            mapSetRequestProperty = new HashMap<>();
+        mapSetRequestProperty.put(key, value);
+        return this;
+    }
+
+    @SuppressWarnings("StringOperationCanBeSimplified")
+    public Ynet addRequestProperty(String key, String value) {
+        //可以重复key的map，但是key的内存地址要不一样
+        if (mapAddRequestProperty == null)
+            mapAddRequestProperty = new IdentityHashMap<>();
+        mapAddRequestProperty.put(new String(key), value);
+        return this;
+    }
+
     @Override
     public void run() {
         if (urlType == null) {
@@ -505,6 +525,12 @@ public class Ynet extends Thread {
             httpURLConnection.setRequestProperty("connection", "Keep-Alive");
             httpURLConnection.setRequestProperty("Charset", "utf-8");
             httpURLConnection.setRequestProperty("Content-Type", contentType);// x-www-form-urlencoded可以换成json
+            if (mapSetRequestProperty != null)
+                for (Map.Entry<String, String> entry : mapSetRequestProperty.entrySet())
+                    httpURLConnection.setRequestProperty(entry.getKey(), entry.getValue());
+            if (mapAddRequestProperty != null)
+                for (Map.Entry<String, String> entry : mapAddRequestProperty.entrySet())
+                    httpURLConnection.addRequestProperty(entry.getKey(), entry.getValue());
             setSession(httpURLConnection);// 设置session
             if (urlType == UrlType.GET) {
                 httpURLConnection.setRequestMethod("GET");
@@ -783,8 +809,8 @@ public class Ynet extends Thread {
      * @param httpURLConnection httpURLConnection
      */
     public void setSession(HttpURLConnection httpURLConnection) {
-        if (sessionId != null) {
-            httpURLConnection.setRequestProperty("Cookie", "JSESSIONID=" + sessionId);
+        if (mySessionId != null) {
+            httpURLConnection.setRequestProperty("Cookie", "JSESSIONID=" + mySessionId);
         } else if (JSESSIONID != null) {
             httpURLConnection.setRequestProperty("Cookie", "JSESSIONID=" + JSESSIONID);
         }
@@ -803,12 +829,16 @@ public class Ynet extends Thread {
             if (list != null) {
                 for (int i = 0; i < list.size(); i++) {
                     int start = list.get(i).indexOf("JSESSIONID");
-                    if (start != -1 && list.get(i).length() >= start + 10 + 1 + 32) {
-                        String JSESSIONID = list.get(i).substring(start + 10 + 1, start + 10 + 1 + 32);// 如：list.get(i)="JSESSIONID=743D39694F006763220CA0CA63FE8978";
-                        if (ynetBackSessionListener != null) {
-                            ynetBackSessionListener.backSessionId(JSESSIONID);
+                    if (start != -1) {
+                        int idStart = start + 10 + 1;
+                        int idEnd = start + 10 + 1 + 32;
+                        if (list.get(i).length() >= idEnd) {
+                            String JSESSIONID = list.get(i).substring(idStart, idEnd);// 如：list.get(i)="JSESSIONID=743D39694F006763220CA0CA63FE8978";
+                            if (ynetBackSessionListener != null) {
+                                ynetBackSessionListener.backSessionId(JSESSIONID);
+                            }
+                            Ynet.JSESSIONID = JSESSIONID;
                         }
-                        Ynet.JSESSIONID = JSESSIONID;
                     }
                 }
             }
@@ -931,8 +961,8 @@ public class Ynet extends Thread {
         return this;
     }
 
-    public Ynet setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public Ynet setMySessionId(String mySessionId) {
+        this.mySessionId = mySessionId;
         return this;
     }
 
