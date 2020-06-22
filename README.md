@@ -30,7 +30,7 @@ allprojects {
 
 ```
 dependencies {
-     implementation 'com.github.yutils:ynet:1.0.2'
+     implementation 'com.github.yutils:ynet:1.0.3'
 }
 ```
 
@@ -40,14 +40,14 @@ dependencies {
   2.安卓请把Ynet替换成YnetAndroid，以为Ynet返回结果在子线程，YnetAndroid返回在主线程
 
 <font color=#0099ff size=4 >GET</font>
-```java
+``` java
   String url = "http://127.0.0.1:8080/yu";
   Ynet.get(url, new ynetListener);
 
 ```
 
 <font color=#0099ff size=4 >POST</font>
-```java
+``` java
   Map<String, Object> paramsMap = new HashMap<String, Object>();
   paramsMap.put("name", "yujing");
   paramsMap.put("content", "123456");
@@ -57,7 +57,7 @@ dependencies {
 ```
 
 <font color=#0099ff size=4 >上传文件</font>
-```java
+``` java
 Ynet ynet = new Ynet();
 Map<String, Object> paramsMap = new HashMap<String, Object>();
 paramsMap.put("name", "yujing");
@@ -89,7 +89,7 @@ ynet.start();
 
 ```
 <font color=#0099ff size=4 >下载文件</font>
-```java
+``` java
 String url = "http://dldir1.qq.com/qqfile/qq/QQ8.9.2/20760/QQ8.9.2.exe";
 	final String path = "D:/" + "yu/";
 	String fileName = "QQ8.9.2.exe";
