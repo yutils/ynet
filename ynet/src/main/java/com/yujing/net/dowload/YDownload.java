@@ -11,10 +11,11 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * 文件下载
- *
+ * 已过时，建议使用YHttp.create().downloadFile();
  * @author YuJing 2017年6月2日16:33:34
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
+@Deprecated
 public class YDownload extends Thread {
     private int fileSize = 0; // 文件总大小
     private int backTime = 200;// 回调时间

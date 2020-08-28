@@ -16,10 +16,26 @@ import java.util.Map;
 /**
  * 安卓使用网络连接类
  *
- * @author 余静 2018年7月24日10:24:03
- * @version 2.5
+ * @author 余静 2020年8月28日10:12:05
+ * @version 1.0.4
  */
 @SuppressWarnings("unused")
+/*
+使用方法： kotlin
+var url = "http://127.0.0.1:12345/api"
+//参数
+val p1 =  HashMap<String, Any>()
+p1["key1"] = "value1"
+//请求
+YnetAndroid.post(url, p1, object : Ynet.YnetListener {
+    override fun success(value: String?) {
+        //成功返回结果
+    }
+    override fun fail(value: String?) {
+        //失败返回原因
+    }
+})
+ */
 public class YnetAndroid extends Ynet {
     /**
      * 消息传递收到后回调监听器
@@ -127,11 +143,6 @@ public class YnetAndroid extends Ynet {
     @Override
     protected void sendBackMsg(final String value, final boolean success) {
         handler.post(() -> {
-            if (showLog == null) {
-                showLog = globalShowLog;
-            }
-            if (showLog)
-                println("YNet","请求地址↓：" + (urlType == UrlType.GET ? "\nGet--->" : "\nPost--->") + url + (params == null ? "" : ("\n请求参数：" + params.toString())) + "\n请求结果：" + value);
             if (success) {
                 if (ynetSuccessListener != null)
                     ynetSuccessListener.success(value);
@@ -146,6 +157,13 @@ public class YnetAndroid extends Ynet {
                 }
             }
         });
+    }
+
+    @Override
+    protected void showLog(String value) {
+        if (showLog == null) showLog = globalShowLog;
+        if (showLog)
+            println("YNet", "请求地址↓：" + (urlType == UrlType.GET ? "\nGet--->" : "\nPost--->") + url + (params == null ? "" : ("\n请求参数：" + params.toString())) + "\n" + (value == null ? "请求失败" : ("请求结果：" + value)));
     }
 
     /**

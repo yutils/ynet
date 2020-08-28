@@ -22,7 +22,6 @@ class MainActivity : BaseActivity() {
         button6.setOnClickListener { }
         button7.setOnClickListener { }
         button8.setOnClickListener { }
-
     }
 
     private fun net() {
@@ -39,7 +38,10 @@ class MainActivity : BaseActivity() {
                 text1.text = value
 
             }
-
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 }

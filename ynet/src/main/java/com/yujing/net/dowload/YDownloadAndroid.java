@@ -5,6 +5,8 @@ import android.os.Handler;
 import java.io.File;
 
 /**
+ * 安卓文件下载
+ * 已过时，建议使用YHttp.create().downloadFile();
  * 网络权限
  * uses-permission android:name="android.permission.INTERNET"
  * 删除文件权限
@@ -12,11 +14,10 @@ import java.io.File;
  * 写入数据权限
  * uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
  * 获取根目录：String path = Environment.getExternalStorageDirectory() + "/";
- * 文件下载
- *
  * @author YuJing 2017年6月2日17:12:38
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
+@Deprecated
 public class YDownloadAndroid extends YDownload {
     private Handler mHandler = new Handler();
 

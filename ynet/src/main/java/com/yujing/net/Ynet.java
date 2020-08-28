@@ -39,10 +39,28 @@ import javax.net.ssl.X509TrustManager;
 /**
  * 网络请求类
  *
- * @author 余静 2018年7月24日10:24:03
- * @version 2.5
+ * @author 余静 2020年8月28日10:11:43
+ * @version 1.0.4
  */
 @SuppressWarnings("unused")
+/*
+使用方法：JAVA
+String url = "http://127.0.0.1:12345/api";
+//参数
+Map<String, Object> map = new HashMap<>();
+map.put("key1","value1");
+//请求
+Ynet.post(url, map, new Ynet.YnetListener() {
+    @Override
+    public void success(String value) {
+        //成功返回结果
+    }
+    @Override
+    public void fail(String value) {
+        //失败返回原因
+    }
+});
+*/
 public class Ynet extends Thread {
     /**
      * boundary就是request头和上传文件内容的分隔符
@@ -258,6 +276,8 @@ public class Ynet extends Thread {
         yNet.setYnetListener(ynetListener);
         yNet.start();
     }
+
+
     // ★★★★★★★★★★★★★★★★★★★★★★★★★★★★静态方法列表结束★★★★★★★★★★★★★★★★★★★★★★★★★★★★
 
     /**
@@ -569,23 +589,31 @@ public class Ynet extends Thread {
                 inputStream = inputStreams[0];
                 sendBackMsg(inputStreamToBytes(inputStreams[1]));
             }
-            sendBackMsg(inputStreamToString(inputStream), true);
+            String value = inputStreamToString(inputStream);
+            showLog(value);
+            sendBackMsg(value, true);
         } catch (MalformedURLException e) {
+            showLog(null);
             sendBackMsg("请求地址错误,或不符合URL规范", false);
             // e.printStackTrace();
         } catch (java.net.SocketTimeoutException e) {
+            showLog(null);
             sendBackMsg("网络连接超时", false);
             // e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
+            showLog(null);
             sendBackMsg("不支持的编码", false);
             // e.printStackTrace();
         } catch (FileNotFoundException e) {
+            showLog(null);
             sendBackMsg("找不到该地址：" + e.getMessage(), false);
             // e.printStackTrace();
         } catch (IOException e) {
+            showLog(null);
             sendBackMsg("连接服务器失败:" + e.getMessage(), false);
             // e.printStackTrace();
         } catch (Exception e) {
+            showLog(null);
             sendBackMsg("未知错误：" + e.getMessage(), false);
             // e.printStackTrace();
         } finally {
@@ -763,11 +791,6 @@ public class Ynet extends Thread {
      * @param success 访问服务器是否成功
      */
     protected void sendBackMsg(final String value, final boolean success) {
-        if (showLog == null) {
-            showLog = globalShowLog;
-        }
-        if (showLog)
-            System.out.println("请求地址：" + (urlType == UrlType.GET ? "Get--->" : "Post--->") + url + (params == null ? "" : ("\n请求参数：" + params.toString())) + "\n请求结果：" + value);
         if (success) {
             if (ynetSuccessListener != null)
                 ynetSuccessListener.success(value);
@@ -782,6 +805,13 @@ public class Ynet extends Thread {
             }
         }
     }
+
+    protected void showLog(final String value) {
+        if (showLog == null) showLog = globalShowLog;
+        if (showLog)
+            System.out.println("请求地址：" + (urlType == UrlType.GET ? "Get--->" : "Post--->") + url + (params == null ? "" : ("\n请求参数：" + params.toString())) + "\n" + (value == null ? "请求失败" : ("请求结果：" + value)));
+    }
+
 
     /**
      * 获取crtSSL证书

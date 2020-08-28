@@ -46,7 +46,7 @@ dependencies {
 
 ```
 
-<font color=#0099ff size=4 >POST</font>
+<font color=#0099ff size=4 >POST JAVA</font>
 ``` java
   Map<String, Object> paramsMap = new HashMap<String, Object>();
   paramsMap.put("name", "yujing");
@@ -54,6 +54,23 @@ dependencies {
   String url = "http://127.0.0.1:8080/yu";
   Ynet.post(url, paramsMap, new ynetListener);
 
+```
+
+<font color=#0099ff size=4 >POST kotlin</font>
+``` kotlin
+var url = "http://127.0.0.1:12345/api"
+//参数
+val p1 =  HashMap<String, Any>()
+p1["key1"] = "value1"
+//请求
+YnetAndroid.post(url, p1, object : Ynet.YnetListener {
+    override fun success(value: String?) {
+        //成功返回结果
+    }
+    override fun fail(value: String?) {
+        //失败返回原因
+    }
+})
 ```
 
 <font color=#0099ff size=4 >上传文件</font>
