@@ -45,21 +45,68 @@ import javax.net.ssl.X509TrustManager;
 @SuppressWarnings("unused")
 /*
 使用方法：JAVA
-String url = "http://127.0.0.1:12345/api";
-//参数
-Map<String, Object> map = new HashMap<>();
-map.put("key1","value1");
-//请求
-Ynet.post(url, map, new Ynet.YnetListener() {
-    @Override
-    public void success(String value) {
-        //成功返回结果
-    }
-    @Override
-    public void fail(String value) {
-        //失败返回原因
-    }
-});
+★1网络请求，java用ynet，安卓用YnetAndroid
+举例：
+//get
+    String url = "http://127.0.0.1:8080/yu/upload";
+    Ynet.get(url, new ynetListener);
+
+//post
+    Map<String, Object> paramsMap = new HashMap<String, Object>();
+    paramsMap.put("name", "yujing");
+    paramsMap.put("content", "123456");
+    String url = "http://127.0.0.1:8080/yu/upload";
+    Ynet.post(url, paramsMap, new ynetListener);
+
+//file
+    Ynet ynet = new Ynet();
+    Map<String, Object> paramsMap = new HashMap<String, Object>();
+    paramsMap.put("name", "yujing");
+    paramsMap.put("content", "123456");
+
+    Map<String, File> fileMap = new HashMap<String, File>();
+    fileMap.put("file", new File("D:/ab.jpg"));
+    fileMap.put("file1", new File("D:/ac.jpg"));
+
+    String url = "http://127.0.0.1:8080/yu/upload";
+    ynet.uploadFile(url, paramsMap, fileMap);
+    ynet.setYnetListener(new YnetListener() {
+        @Override
+        public void success(String value) {
+        }
+        @Override
+        public void fail(String value) {
+
+        }
+    });
+
+    ynet.setYnetBackSessionListener(new YnetBackSessionListener() {
+        @Override
+        public void backSessionId(String SessionId) {
+            System.out.println("服务器返回的SessionId：" + SessionId);
+        }
+    });
+    ynet.start();
+
+★2文件下载，java用YDownload，安卓用YDownloadAndroid
+举例：
+	String url = "http://dldir1.qq.com/qqfile/qq/QQ8.9.2/20760/QQ8.9.2.exe";
+	final String path = "D:/" + "yu/";
+	String fileName = "QQ8.9.2.exe";
+	YDownload.Download(url, path, fileName, new YDownloadListener() {
+		@Override
+		public void response(int downloadedSize, int fileSize, double progress, boolean isfail, File file) {
+			if (isfail) {
+				System.out.println("下载出错");
+				return;
+			}
+			if (progress == 100) {// 进度
+				System.out.println("下载完成:" + downloadedSize + "大小：" + fileSize + "百分比：" + progress);
+			} else {
+				System.out.println("下载进度:" + downloadedSize + "大小：" + fileSize + "百分比：" + progress);
+			}
+		}
+	});
 */
 public class Ynet extends Thread {
     /**
