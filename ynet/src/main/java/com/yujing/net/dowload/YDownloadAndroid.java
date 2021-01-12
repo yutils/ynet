@@ -1,6 +1,7 @@
 package com.yujing.net.dowload;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import java.io.File;
 
@@ -19,7 +20,7 @@ import java.io.File;
 @SuppressWarnings({"unused", "WeakerAccess"})
 @Deprecated
 public class YDownloadAndroid extends YDownload {
-    private Handler mHandler = new Handler();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public YDownloadAndroid(String url, String path, String fileName) {
         super(url, path, fileName);
@@ -31,7 +32,7 @@ public class YDownloadAndroid extends YDownload {
 
     // 快捷设置方法
     public static YDownload Download(String url, String path, String fileName, final YDownloadListener downloadListener) {
-        final Handler mHandler = new Handler();
+        final Handler mHandler = new Handler(Looper.getMainLooper());
         YDownloadListener listener = (downloadedSize, fileSize, progress, isfail, file) -> mHandler.post(() -> downloadListener.response(downloadedSize, fileSize, progress, isfail, file));
         YDownloadAndroid yDownloadFile = new YDownloadAndroid(url, path, fileName);
         yDownloadFile.setDownloadListener(listener);
@@ -43,7 +44,7 @@ public class YDownloadAndroid extends YDownload {
 
     // 快捷设置方法
     public static YDownload Download(String url, File file, final YDownloadListener downloadListener) {
-        final Handler mHandler = new Handler();
+        final Handler mHandler = new Handler(Looper.getMainLooper());
         YDownloadListener listener = (downloadedSize, fileSize, progress, isfail, file1) -> mHandler.post(() -> downloadListener.response(downloadedSize, fileSize, progress, isfail, file1));
         YDownloadAndroid yDownloadFile = new YDownloadAndroid(url, file);
         yDownloadFile.setDownloadListener(listener);

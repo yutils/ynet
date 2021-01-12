@@ -30,7 +30,7 @@ allprojects {
 
 ```
 dependencies {
-     implementation 'com.github.yutils:ynet:1.0.3'
+     implementation 'com.github.yutils:ynet:1.0.5'
 }
 ```
 

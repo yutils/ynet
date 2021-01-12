@@ -1,47 +1,42 @@
 package com.yujing.test
 
 import android.util.Log
+import android.widget.TextView
+import com.yujing.base.YBaseActivity
 import com.yujing.net.Ynet
 import com.yujing.net.YnetAndroid
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.math.log
+import com.yujing.test.databinding.ActivityAllTestBinding
+import com.yujing.utils.YPermissions
+import com.yutils.view.utils.Create
 
-class MainActivity : BaseActivity() {
-
-    override val layoutId: Int
-        get() = R.layout.activity_main
-
+class MainActivity : YBaseActivity<ActivityAllTestBinding>(R.layout.activity_all_test) {
+    lateinit var textView1: TextView
+    lateinit var textView2: TextView
     override fun init() {
-        //var a=findViewById<Button>(R.id.button1)
-        button1.text = "网络请求"
-        button1.setOnClickListener { net() }
-        button2.setOnClickListener { show("456") }
-        button3.setOnClickListener { }
-        button4.setOnClickListener { }
-        button5.setOnClickListener { }
-        button6.setOnClickListener { }
-        button7.setOnClickListener { }
-        button8.setOnClickListener { }
+        YPermissions.requestAll(this)
+        binding.wll.removeAllViews()
+        binding.ll.removeAllViews()
+        textView1 = Create.textView(binding.ll)
+        textView2 = Create.textView(binding.ll)
+        Create.button(binding.wll, "测试") {
+            test1()
+        }
     }
 
-    private fun net() {
+    private fun test1() {
         var url = "http://192.168.1.120:10007/api/SweepCode/JjdTwoDownload"
         var p =
             "{\"DeviceNo\":\"868403023178079\",\"BatchNum\":\"54511002\",\"Command\":112,\"MsgID\":1}"
         YnetAndroid.post(url, p, object : Ynet.YnetListener {
             override fun success(value: String?) {
-                Log.e("1111",value)
-                text1.text = value
+                Log.e("1111", value)
+                textView1.text = value
             }
-            override fun fail(value: String?) {
-                Log.e("1111",value)
-                text1.text = value
 
+            override fun fail(value: String?) {
+                Log.e("1111", value)
+                textView1.text = value
             }
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 }

@@ -2,6 +2,7 @@ package com.yujing.net;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -40,7 +41,7 @@ public class YnetAndroid extends Ynet {
     /**
      * 消息传递收到后回调监听器
      */
-    public Handler handler = new Handler();
+    public Handler handler = new Handler(Looper.getMainLooper());
     protected Map<String, Bitmap> bitmapMap;
 
     public static YnetAndroid create() {
